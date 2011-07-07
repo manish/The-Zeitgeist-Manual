@@ -33,6 +33,53 @@ doesn't support some D-Bus features we needed.
 \subsection{GLib}
 
 \section{Bazaar}
+Bazaar is a distributed version control system. Using a distributed version control 
+system like bazaar developers can collaborate in a completely distributed manner 
+without having to know what code changes the other developer is doing. Every developer 
+has a complete copy of the source code with all the change history.
+
+To collaborate amongst the developers there is a centralized server where all the 
+developers can push code and pull changes made by others. Let us imagine a scenario 
+in which various developers have to collaborate.
+\begin{enumerate}
+\item The central server contains the source code.
+\item Three developers make a clone of the source code using bazaar.
+\item All three of them go to some place without an internet connection.
+\item All of them keep making changes to the codebase.
+\item Developer A pushes his code on the server.
+\item Rest two developers pull from the server and get Developer A's changes.
+\item Developer B pushes his changes.
+\item Developer A and C pull the changes.
+\item Developer A has B's changes and Developer B has Developer A's changes.
+\item Developer C has changes from all the two developers plus his own.
+\item Developer C pushes the changes on the server.
+\item Developer A and B pull th changes from the server.
+\item Now all the three developers have each other changes and server has changes 
+from all three of them.
+\end{enumerate}
+
+Bazaar also maintains history of the changes. It can be told to keep a watch on the 
+files specified and it can then tell which files have changes and what has changed. It 
+can even tell the contents which has changes. After making some changes we can commit the 
+changes. Each commit is like a \textbf{milestone}. All the changes made after the commit are 
+called changes, which can be then committed. Anytime a person can see the changes 
+made between the various commits. 
+
+It is advisable to have one logical unit of work in a commit instead of making 10,000 
+lines of changes in a single commit. Example changes made to add a new entry in the toolbar 
+can qualify as a commit. If the changes are very big, then this should be broken down into 
+smaller and more managable changes. 
+
+There are many reasons for keeping the changes in a single commit small and managable: 
+
+\begin{itemize}
+\item The changes made between commits can be viewed by a diff tool like \textit{kdiff} and \textit{meld}. 
+If changes are small, reading and understanding the changes is easier.
+\item When changes are small, it is easy to find out the commit which introduced a regression.
+\item Many times code is submitted for review before it is accepted. Having a huge 8000 lines 
+of changes makes it very difficult for the maintainer of the project to understand.
+\end{itemize}
+
 \section{Launchpad}
 \section{Internet Relay Chat}
 \section{Mailing lists}

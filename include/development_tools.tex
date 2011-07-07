@@ -1,5 +1,38 @@
 \section{Languages used}
+
+\subsection{Zeitgeist Engine}
+The Zeitgeist engine is primarily written in Python and minimum supported version is Python 2.7
+
+\subsection{Zeitgeist Datahub}
+
+
+\subsection{Libraries and Datasources}
+\subsection{Why Python for Engine?}
+GNOME Zeitgeist started from the Gimmie/Mayanna codebase that was written 
+in python. The tradition continued. Although we had several thoughts to move 
+to Mono, C and Vala it never happened for several reasons. 
+\begin{itemize}
+\item Mono would have created a big debate in the community since a lot of 
+GNOME hackers dislike it, however at the very beginning all ZG developers were 
+keen with mono, yet to ensure no political issues we decided to stay with python.
+\item C was and still is an issue since, only a few or the core devs are familiar 
+with C and we will lose momentum.
+\item Vala would have made Zeitgeist more a GNOME project than a desktop project 
+and there is not much gain now in moving to any other programing language since 
+speed and memory consumption wont be affected heavily in comparison to the effort 
+we will have to put in it. That time Vala wasn't an option either because it 
+doesn't support some D-Bus features we needed.
+\end{itemize}
+
+
+
+
+\section{Other technologies}
+\subsection{SQLite}
+\subsection{DBus}
+\subsection{GLib}
+
 \section{Bazaar}
-\section{launchpad}
+\section{Launchpad}
 \section{Internet Relay Chat}
 \section{Mailing lists}

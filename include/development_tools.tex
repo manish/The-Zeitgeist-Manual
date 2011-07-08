@@ -33,6 +33,55 @@ doesn't support some D-Bus features we needed.
 \subsection{DBus}
 \subsection{GLib}
 
+\section{Launchpad}
+
+Launchpad is a web based application for software development and collaboration for 
+free software. It is actually a suite of various services which is tightly integrated 
+with each other. Some of the services are:
+\begin{itemize}
+\item Code hosting (uses Bazaar)
+\item Bug tracker (codenamed Malone)
+\item Question and Answers
+\item Package Management (codenamed Soyuz)
+\item Translations (codenamed Rosetta)
+\item Blueprints
+\item Registry - Projects, Teams and Mailing lists
+\end{itemize}
+
+Launchpad is a great development and collaborative platform which is already being used 
+to develop Ubuntu, the most famous and widespread Linux distribution. Apart from the 
+distribution there are many other smaller or bigger projects which are developed like 
+Drizzle, Inkscape, Upstart, Zope3, OpenStack, Bazaar, OpenShot, Docky and MySQL.
+
+\subsection{Why Launchpad is good for our workflow}
+\subsection{How we found value in Launchpad's bug tracker}
+Launchpad's bug tracker contains many good features which are of immense help for our 
+project. Some of them are
+\begin{enumerate}
+\item A problem in zeitgeist can affect various modules of zeitgeist. It is important for 
+us to track the same bug in all the modules. Instead of having multiple bugs opened for 
+all for them, one bug reports tracks status in all the affected modules.
+\item Since Ubuntu also uses Launchpad for management, we can track an issue in our codebase 
+as well as the one present in Ubuntu at the same time. It also allows us to track the issues 
+of zeitgeist in each ubutu version seperately which helps us know the complete history 
+of the current problem.
+\item An problem in zeitgeist might be due to a bug in one of our dependencies which might 
+not be developed in Launchpad. In such a case this same issue is opened upstream on that 
+project's bug tracker and a \textit{bug watch} is added to the corrosponding issue in Launchpad. 
+The work of bug tracker is to keep a watch on the upstream bug and import the updates from that 
+upstream bug on Launchpad so that the bug triagers or developers don't have to keep watch 
+everywhere. This simplifies bug management.
+\item Launchpad allows us to subscribe to bug reports. The beauty of this subscription is that 
+it allows us to configure our subscription to fine-grained level on each bug seperately. It 
+allows someone to subscribe someone anyone on a bug.
+\item It keeps the comments on the bug and the changes made to the status and importance of 
+each affected project seperately. Patches and attachment are also shown in the comment in 
+strict oldest to newer order. All the attachments and patches are also shown on the right 
+side if someone is interested in looking at all of them, especially in bug reports with lots 
+of activity.
+\end{enumerate}
+\subsection{Why tightly integrated Launchpad helps us}
+
 \section{Bazaar}
 Bazaar is a distributed version control system. Using a distributed version control 
 system like bazaar developers can collaborate in a completely distributed manner 
@@ -81,6 +130,24 @@ If changes are small, reading and understanding the changes is easier.
 of changes makes it very difficult for the maintainer of the project to understand.
 \end{itemize}
 
-\section{Launchpad}
+\subsection{Why did we pick up Bazaar}
+There were multiple reasons why we chose Bazaar and then later continued with it: 
+\begin{itemize}
+\item The initial code of Zeitgeist was uploaded on Launchpad which uses Bazaar version control system.
+\item Bazaar is simple to use. It takes less time to learn.
+\item Bazaar has great integration with Launchpad. This is one important factor.
+\item Bazaar has simpler branching and merging concept than other version control systems.
+\item We want to make the entry barrier low to the new contributers. We want them to spend more time 
+on implementing the actual thing than spend time learning a version control system.
+\end{itemize}
+
+\subsection{How tough is to migrate to something else}
+There are two major reasons why we do not merge to some other version control system: 
+\begin{itemize}
+\item It takes time to learn a new distributed version control system. The present system works 
+great for our requirements.
+\item We have an option to move to git, but Launchpad does not support git, so the tight 
+integration would be lost.
+\end{itemize}
 \section{Internet Relay Chat}
 \section{Mailing lists}

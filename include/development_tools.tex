@@ -5,9 +5,28 @@ The Zeitgeist engine is primarily written in Python and minimum supported versio
 
 
 \subsection{Zeitgeist Datahub}
-Zeitgeist datahub is a passive logger for zeitgeist
+Zeitgeist datahub is a passive logger for zeitgeist. It is written in 
+vala, since it gives a great flexilitties. It gives us the good features 
+of a high level language which compiles down to native code. 
+
+The high level language features helps in bringing down the effort we
+put in maintaince, so that the workforce can be used in work which needs 
+more attention. It helps us in an efficient use of manpower, esp in a 
+voulenteer run project.
+
+On the performace side, it needs to be lightweight as it is running all 
+the time. The earlier python based datahub used 5 times more memory.
 
 \subsection{Libraries and Datasources}
+We have a libraries which are basically language or framework bindings 
+for Zeitgeist API. Most of these bindings actually wrap over the 
+Zeitgeist DBus API using the dbus binding for that specific package. 
+We have bindings for Python, C/Vala, Qt and Mono.
+
+Datasources are written in multiple languages and uses the language which 
+the application supports. Example Emacs datasource is written in lisp, 
+tomboy datasource is written in C\#, Rhythmbox datasource is written in 
+python and so on.
 \subsection{Why Python for Engine?}
 GNOME Zeitgeist started from the Gimmie/Mayanna codebase that was written 
 in python. The tradition continued. Although we had several thoughts to move 
@@ -24,8 +43,6 @@ speed and memory consumption wont be affected heavily in comparison to the effor
 we will have to put in it. That time Vala wasn't an option either because it 
 doesn't support some D-Bus features we needed.
 \end{itemize}
-
-
 
 
 \section{Other technologies}
@@ -149,5 +166,7 @@ great for our requirements.
 \item We have an option to move to git, but Launchpad does not support git, so the tight 
 integration would be lost.
 \end{itemize}
+
+
 \section{Internet Relay Chat}
 \section{Mailing lists}

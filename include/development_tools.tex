@@ -6,23 +6,23 @@ The Zeitgeist engine is primarily written in Python and minimum supported versio
 
 \subsection{Zeitgeist Datahub}
 Zeitgeist datahub is a passive logger for zeitgeist. It is written in 
-vala, since it gives a great flexilitties. It gives us the good features 
+vala, since it gives a great flexibilities. It gives us the good features 
 of a high level language which compiles down to native code. 
 
 The high level language features helps in bringing down the effort we
 put in maintaince, so that the workforce can be used in work which needs 
 more attention. It helps us in an efficient use of manpower, esp in a 
-voulenteer run project.
+volunteer run project.
 
 On the performace side, it needs to be lightweight as it is running all 
 the time. The earlier python based datahub used 5 times more memory.
 
-\subsection{Libraries and Datasources}
+\subsection{Libraries}
 We have a libraries which are basically language or framework bindings 
 for Zeitgeist API. Most of these bindings actually wrap over the 
 Zeitgeist DBus API using the dbus binding for that specific package. 
 We have bindings for Python, C/Vala, Qt and Mono.
-
+\subsection{Datasources}
 Datasources are written in multiple languages and uses the language which 
 the application supports. Example Emacs datasource is written in lisp, 
 tomboy datasource is written in C\#, Rhythmbox datasource is written in 
@@ -84,7 +84,7 @@ of zeitgeist in each ubutu version seperately which helps us know the complete h
 of the current problem.
 \item An problem in zeitgeist might be due to a bug in one of our dependencies which might 
 not be developed in Launchpad. In such a case this same issue is opened upstream on that 
-project's bug tracker and a \textit{bug watch} is added to the corrosponding issue in Launchpad. 
+project's bug tracker and a \textit{bug watch} is added to the corresponding issue in Launchpad. 
 The work of bug tracker is to keep a watch on the upstream bug and import the updates from that 
 upstream bug on Launchpad so that the bug triagers or developers don't have to keep watch 
 everywhere. This simplifies bug management.
@@ -169,4 +169,73 @@ integration would be lost.
 
 
 \section{Internet Relay Chat}
+
+Internet Relay Chat or IRC is a multiuser realtime chat which is specified by IETF RFC 1459 and is used 
+by a lot of Open Source projects for collaboration, real time discussion, meetings via texts. It can also 
+be used to exchange files.
+\\
+
+Since IRC is a standarized protocol there exists many IRC networks like Freenode, DALnet, OFTC and 
+GIMPnet. Each IRC network can have multiple channels. Infact anyone can create a new channel and start 
+using it for their work. Each network has it's own Terms of Service which needs to be respected.
+\\
+
+Freenode, OFTC and GIMPnet are one of the few biggest IRC networks for Open Source projects. Zeitgeist uses 
+Freenode network for running it's IRC channel. Our channel is named \#zeitgeist. All the official channels 
+start with a \# and unofficial channels start with \#\#. Example unofficial Ubuntu chit-chat channel "Club Ubuntu" 
+has the channel name \#\#club-ubuntu
+\\
+
+IRC has helped zeitgeist development immensely. We all zeitgeist developers spend most of our time spent 
+for collaboration on IRC. We have meetings and random sporadic discussions related to performance and new 
+feature sets. IRC is also a great place where we can meet our users who are having issues. We also provide 
+support to users. There are developers who want to add zeitgeist support in their application. All of these 
+use cases are perfectly handled by Internet Relay Chat.
+
 \section{Mailing lists}
+
+Mailing lists are discussion medium which uses email service for discussion. People who want to take part in a 
+discussion register their email address on the mailing list service. Every mailing list service has a dedicated 
+email address which acts as the contact point for that group. 
+\\
+If a person needs to start a discussion, he needs to send a mail to the mailing list address which takes care of 
+sending that mail to the subscribed members. Those people who want to reply to that mail, send a reply to 
+the mailing list email address and everyone gets the mail.
+\\
+Usage of mailing lists brings an interesting observation. Developers keep coming in and leaving the project, so 
+there needs to be a email address which represents the development community. Other option would have been to 
+send a mail to each and every developer and then they reply back to everyone else. This setup has many problems. 
+A few of them are
+\begin{enumerate}
+\item If the development team is very big, then sending mails to so many people can be tedious. Additionally, 
+many mail servers would block such a mail send to so many people.
+\item The contents of the discussion is not publicly available and archived as the discussion is private. Open 
+source projects pride themselves in transparency and public setup (also called Bazaar model of development)
+\item A person who wants to leave the development might need to send mail to everyone else to remove him from 
+the discussion. Maintaing the whole list of people interested in discussion would become another problem.
+\item If a new member needs to join the discussion, then he needs to ask everyone in the team. Since in this 
+model the discussion is private, he might not know who all he needs to ask. He might not even know that 
+there is a such a discussion going on.
+\item In this model, the entire list of email addresses can get leaked which might end up in hand of spammers.
+\end{enumerate}
+
+Now let us see how this problem is solved by mailing lists approach:\
+\begin{enumerate}
+\item An individual has the full control when he wants to join or depart from the mailing list.
+\item The public archive of the discussion is maintained by the mailing list software. This can be either public 
+or private depending on the policies of the mailing list.
+\item A person does not need to have the headache of sending mail to each and every person. He just sends the mail 
+to the mailing list address and the rest is taken care by the mailing list software.
+\item It is possible to subscribe to the digest version of mailing list discussion if a person just wants to read the 
+summary of the information rather than actively participating in the discussion.
+\end{enumerate}
+
+Zeitgeist uses GNU Mailman which is probably the most widely used mailing list software. The email address for our 
+mailing lists are
+\begin{itemize}
+\item Development - dev@lists.zeitgeist-project.com
+\item Users - gnome-zeitgeist-users@lists.launchpad.net
+\end{itemize}
+
+We keep out subscribed user list private to protect the email addresses from getting harvested by spam bots. To promote 
+transparency we keep our discussion archives public and searchable by search engines like google search.

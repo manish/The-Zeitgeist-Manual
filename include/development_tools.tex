@@ -47,8 +47,47 @@ doesn't support some D-Bus features we needed.
 
 \section{Other technologies}
 \subsection{SQLite}
+SQLite is a embedded relational database management system with ACID compliant. It 
+has a very small size which makes it ideally suited for wide varities of uses. It is 
+classified as a flat file database as opposed to most of the database systems which 
+run as a server-client model.
+
+Every SQLite database is represented as a file on the disk. It has bindings for most 
+of the languages with which it is accessed. SQLite is said to be the world's most 
+deployed database system. Lots of applications use SQLite. Some of them are listed: 
+\begin{itemize}
+\item \textbf{Adobe} - Adobe Lightroom, Adobe Integrated Runtime
+\item \textbf{Apple} - Safari, Aperture, Apple Mail
+\item \textbf{Mozilla} - Firefox, Thunderbird
+\item \textbf{Google} - Google Gears, Android, Chrome browser
+\end{itemize}
+
+
+The advantage of SQLite are numerous:
+\begin{enumerate}
+\item It reduces latency by avoiding server-client model and directly accessing 
+the database file.
+\item The size of the library is very small and can be used in space-constained 
+applications. 
+\item Even though being very small in size, it still implements ACID which 
+gives it transaction feature.
+\end{enumerate}
+
 \subsection{DBus}
+DBus is a simple Interprocess-communication system used by applications to communicate 
+with each other. It is available for POSIX operating systems and a windows port is 
+available which is does not work so well. DBus is a freedesktop project.
+
+DBus runs as a daemon on the local system. There are two kind of instance. One is a 
+single system wide daemon called SystemBus and per user instance called as SessionBus. 
+
+Every application can start a SessionBus to let other applications communicate with it. 
+Applications can then connect to the application on interfaces and call methods on the 
+interface to interact with the application which started the SessionBus.
 \subsection{GLib}
+GLib is one of the core building block of for applications and libraries which are 
+written in C. It provides the basic functionality like data strutures, threading, mutex, 
+message passing, hook functions and many more.
 
 \section{Launchpad}
 

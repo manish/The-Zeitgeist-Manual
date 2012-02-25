@@ -1,7 +1,8 @@
 \section{Languages used}
 
 \subsection{Zeitgeist Engine}
-The Zeitgeist engine is primarily written in Python and minimum supported version is Python 2.7
+The Zeitgeist engine is primarily using Vala which is a C\# like language 
+which targets the GObject type system instead of Common Language Runtime
 
 
 \subsection{Zeitgeist Datahub}
@@ -27,22 +28,22 @@ Datasources are written in multiple languages and uses the language which
 the application supports. Example Emacs datasource is written in lisp, 
 tomboy datasource is written in C\#, Rhythmbox datasource is written in 
 python and so on.
-\subsection{Why Python for Engine?}
+\subsection{Why Vala for Engine?}
 GNOME Zeitgeist started from the Gimmie/Mayanna codebase that was written 
 in python. The tradition continued. Although we had several thoughts to move 
-to Mono, C and Vala it never happened for several reasons. 
+to Mono and C, it never happened for several reasons. 
 \begin{itemize}
 \item Mono would have created a big debate in the community since a lot of 
 GNOME hackers dislike it, however at the very beginning all ZG developers were 
 keen with mono, yet to ensure no political issues we decided to stay with python.
 \item C was and still is an issue since, only a few or the core devs are familiar 
 with C and we will lose momentum.
-\item Vala would have made Zeitgeist more a GNOME project than a desktop project 
-and there is not much gain now in moving to any other programing language since 
-speed and memory consumption wont be affected heavily in comparison to the effort 
-we will have to put in it. That time Vala wasn't an option either because it 
-doesn't support some D-Bus features we needed.
+\item 
 \end{itemize}
+Finally the developers took a tough decision and ported the codebase to Vala 
+which compiles Zeitgeist as a native application. This greatly expanded the 
+scope where zeitgeist can be used. The target platform only needs to support 
+a basic set of libraries including glib, sqlite and xapian (for full text search)
 
 
 \section{Other technologies}
@@ -88,6 +89,13 @@ interface to interact with the application which started the SessionBus.
 GLib is one of the core building block of for applications and libraries which are 
 written in C. It provides the basic functionality like data strutures, threading, mutex, 
 message passing, hook functions and many more.
+
+\subsection{Xapian}
+Xapian is an open source search engine library which is mostly used for full text 
+search. To be more accurate, xapian is a probabilistic information retrieval library.
+
+Zeitgeist uses Xapian to prove full text search on the event logged, using which 
+we can do the search on URL, application name, Text fields of the event.
 
 \section{Launchpad}
 

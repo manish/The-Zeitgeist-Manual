@@ -1,6 +1,35 @@
 \section{How we handle bugs}
 \section{How we handle blueprints}
 \section{How we handle merge requests}
+
+All important changes needs to be reviewed before it lands in our source 
+code repository. Anyone who wants to make a change, which includes the 
+developers too, have to propose a merge request. The changed in the merge 
+request is then reviewed by other developers before it lands in the source 
+code repository. As a general policy, atleast one developer needs to approve 
+the merge request before the request is considered accepted by the team.
+
+There are various advantages of reviews using merge requests which includes, 
+but is not limited to the following reasons
+
+\begin{itemize}
+\item It helps find the probable issues which might be encountered if the 
+changes proposed contains bugs.
+\item It helps the person proposing the merge request to learn something new 
+when one of the developers proposes a better solution than the one provided.
+\item It helps the team learn any new practices or feature which would 
+otherwise go un-noticed if the changes were directly pushed in the main 
+repository without a review
+\item It helps the team to keep a track on the changes occouring in the source 
+code repository.
+\end{itemize}
+
+You can relate this process with peer-reviews of scientific journals. Instead of 
+new theories, changes are being proposed. The scientific community's role is being 
+played mostly by the developers (though anyon can leave a review). If the changes 
+is found to meet the requirements and expecations, they are accepted in the 
+codebase just like theory is accepted in the scientific knowledge repository.
+
 \section{How we test our work}
 \section{How we manage releases}
 A release is discussed between the various module maintainers. 
@@ -30,3 +59,19 @@ picks up the name. He can consult other team members for suggestions.
 
 \section{Description of our development process}
 \section{Governance model}
+
+The zeitgeist project is a mix of meritocratic and democratic practises. 
+When an important topic is discussed, all the members involved are 
+consulted and the best decision is carried forward. The experience and 
+knowledge of a member related to the topic carries weight and the decision 
+is based on it.
+
+There are components which have a single maintainer. Those maintainers usually 
+take decisions which are in best interest of the project or to that component. 
+Maintainers sometimes consult other members in cases when the impact of the 
+decision might be noticable. 
+
+Components which are maintained by a group of developers are mostly important 
+ones and the decision is taken largely by concensus. The person who took more 
+active part in the ongoing version gets a stronger voice and he/she knows the 
+changes better than others who are passively participating. 

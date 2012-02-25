@@ -1,0 +1,59 @@
+\section{Introduction}
+
+As mentioned before Zeitgeist is an event log and not a search engine or 
+file tracker. It just logs the various events occouring on the system 
+like file opened, file modified, call placed, IM received etc.
+
+\section{Engine}
+
+At the heart zeitgeist consists of an engine which runs as a daemon. It's 
+work is to simply receive events, store it in the database, provide the 
+events when requested for. The daemon exposes a per-user D-Bus which runs 
+as a SessionBus.
+
+
+\noindent
+\linebreak 
+The daemon stores all the events and related metadata in an sqlite database 
+which is stored in 
+
+\texttt{\$XDG\_DATA\_HOME/zeitgeist/activity.sqlite}
+
+\noindent
+where \texttt{\$XDG\_DATA\_HOME} equals to \texttt{\$HOME/.local/share} in 
+most of the cases.
+
+
+\noindent
+\linebreak 
+If there are more than one user on the system, then every user will have 
+their own Zeitgeist SessionBus and thus their own seperate sqlite database. 
+This behaviour of SessionBus is useful for keeping activities of different 
+users stored under their own directory.
+
+\section{The Basic Unit: Event}
+
+If the engine is the heart, then the role of blood is being taken up by Events. 
+Events are packet of information which contain the data about any kind of activity 
+occouring on the system.
+
+An event contains:
+\begin{itemize}
+\item \textbf{id} - Every event has a unique identifier which can be used to identify 
+an event from others. It is of type int
+\item \textbf{timestamp} - This is the time when the event occoured. The value stored is 
+the number of milliseconds since UNIX epoch. UNIX epoch is the moment which is 
+00:00:00 UTC on Thursday, January 1st, 1970.
+\item \textbf{interpreation} - This defines "what happened" using a formal URI. The 
+predefined set of URIs are available and will be covered later.
+\item \textbf{manifestation} - This defines “how did this happen” using a formal URI. 
+The predefined set of URIs are available and will be covered later.
+\item \textbf{actor} - The URI defining the entity responsible for this event. 
+In most of the case it is an application. In case of application the 
+application:// URI is used. e.g. application://firefox.desktop
+\item \textbf{subjects} - This just represents the subject of the event. There can be more 
+than one subjects but in majority of the cases, only one is needed
+\item \textbf{payload} - An array of bytes which can be used for freeform storage of any 
+data associated with the event. The encoding or format of the data is not handled 
+by the engine and is left upon the clients.
+\end{itemize}

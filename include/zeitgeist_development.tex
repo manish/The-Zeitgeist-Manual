@@ -37,7 +37,9 @@ If the engine is the heart, then the role of blood is being taken up by Events.
 Events are packet of information which contain the data about any kind of activity 
 occouring on the system.
 
-An event contains:
+
+\noindent
+An Event contains:
 \begin{itemize}
 \item \textbf{id} - Every event has a unique identifier which can be used to identify 
 an event from others. It is of type int
@@ -56,4 +58,33 @@ than one subjects but in majority of the cases, only one is needed
 \item \textbf{payload} - An array of bytes which can be used for freeform storage of any 
 data associated with the event. The encoding or format of the data is not handled 
 by the engine and is left upon the clients.
+\end{itemize}
+
+
+\noindent
+A Subject contains:
+\begin{itemize}
+\item \textbf{uri} - The Universal Resource Identifier associated with the resource involved 
+in this event. This URI stored should be such that the event it is representing can 
+be reproduced using this. e.g. In case a file is opened, closed, edited then the URI 
+will be file URL which can be like \texttt{file:///etc/fstab} or if the webpage was 
+accessed, then the URL of the website becomes the URL like \texttt{http://google.com} 
+or if the application is launcher, then \texttt{application://firefox.desktop} 
+can be the URI if Firefox was launched.
+\item \textbf{interpreatio}n - the abstract notion of what the subject is, eg. \"this is a document\" or \"this is an image\". The interpretation is formally represented by a URI.
+\item \textbf{manifestation} - the abstract notion of how the subject is stored or available, eg. \"this is file\" or \"this is a webpage\". The manifestation is formally represented by a URI.
+\item \textbf{origin} - The URI from where the user accessed the subject from. In case the user 
+opened the file \texttt{file:///etc/fstab}, then the origin is \texttt{file:///etc/} and 
+in case of \texttt{http://google.com/accounts/list} origin is \texttt{http://google.com/} 
+and in case of application launches origin is empty.
+\item \textbf{mimetype} - The mimetype of the subject. Examples are \texttt{text/plain}, 
+\texttt{text/html}, \texttt{image/png} and \texttt{application/octet-stream}
+\item \textbf{text} - A short textual representation of the subject. In case of PDF, the title of 
+the PDF can be the text. In case of music track - Title, Genre and artist is the text. In 
+case of webpage accessed, the title of webpage can be the text.
+\item \textbf{storage} -  represents the id storage device the subject is. For files this would be the UUID of the volume, for subjects requiring a network interface use the 
+string “net”. If the subject has been deleted use the string “deleted”. The storage id 
+of the subject is used internally in the Zeitgeist engine to keep track of subject 
+availability. This way clients can request hits only on subjects that are 
+currently available.
 \end{itemize}

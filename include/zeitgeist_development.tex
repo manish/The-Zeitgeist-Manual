@@ -228,7 +228,7 @@ In this section we will learn to search for events based on a certain set of fil
 The template used for filtering is an instance of an Event itself.
 
 Even though it looks tougher with all the type conversions, all these appears in 
-our snippet because we are using raw d-bus. In case of libraries all these 
+our snippet because we are using raw D-Bus. In case of libraries all these 
 boilerplate code is hidden by a friendly API
 
 \begin{center}
@@ -266,3 +266,35 @@ boilerplate code is hidden by a friendly API
 
 \end{verbatim}
 \end{center}
+
+In the previous section, we saw that we are searching for events which have 
+the value of actor set as \texttt{application://gedit.desktop} and the called 
+method is \texttt{GetEventIds}. The method \texttt{GetEventIds} is useful in 
+cases only if you want to know only the ids and not interested in all the events. 
+This can be particularly useful when you don't want to store all the events 
+in memory at once, but would like to fetch the event only when needed.
+
+
+In most practical scenarios, you would send an event template and fetch the 
+events itself instead of just their ids. To accomodate for this workflow, you 
+don't need to make drastic changes in the code snippet in the previous example.
+
+
+Instead of \texttt{FindEventIds}, you would use \texttt{FindEvents} to fetch 
+the events. Both the methods use the same arguments.
+
+\begin{center}
+\begin{verbatim}
+
+>>> events = zg.FindEvents(tr_list, all_tmps, StorageState.Available, \
+   6, ResultType.MostRecentEvents)
+
+>>> ev1 = Event(events[0])
+>>> ev1.get_actor().__str__()
+'application://gedit.desktop'
+
+\end{verbatim}
+\end{center}
+
+This methods can be viewed as calling \texttt{FindEventIds} and then calling 
+\texttt{GetEvents} using the returned list of event ids as it's arguments.

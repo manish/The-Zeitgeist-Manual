@@ -126,6 +126,8 @@ of your choice.
 Open, terminal and type \texttt{python} which will lead you to a prompt looking like 
 \texttt{>>>}
 
+\subsection{Fetching events by id}
+
 Now you need to import the relevant packages and types. We would first try to get an 
 instance of the D-Bus interface, then we would invoke the methods.
 
@@ -215,6 +217,51 @@ datetime.datetime(2011, 9, 24, 3, 20, 35)
 
 >>> sub.get_uri().__str__()
 'application://gnome-activity-journal.desktop'
+
+
+\end{verbatim}
+\end{center}
+
+\subsection{Searching for events by template}
+
+In this section we will learn to search for events based on a certain set of filters.
+The template used for filtering is an instance of an Event itself.
+
+Even though it looks tougher with all the type conversions, all these appears in 
+our snippet because we are using raw d-bus. In case of libraries all these 
+boilerplate code is hidden by a friendly API
+
+\begin{center}
+\begin{verbatim}
+
+# Import the necessary types
+>>> from zeitgeist.datamodel import TimeRange, StorageState, ResultType
+
+# Create an instance of an event template
+>>> tmp = Event.new_for_values(actor="application://gedit.desktop")
+# We cast this object into a list, so that it can be sent over D-Bus
+>>> tmp_list = list(tmp)
+>>> all_tmps = [tmp_list]
+
+# Specify the time range. In this case we choose to get all events till now
+>>> tr = TimeRange.until_now()
+>>> tr_list = list(tr)
+
+# We are asking for events for which subjects are available 
+# and sorted by Most Recent Events and total of 6 events
+>> ids = zg.FindEventIds(tr_list, all_tmps, StorageState.Available, \
+   6, ResultType.MostRecentEvents)
+
+# Now we can get the event ids. e.g.
+>>> ids[0].__int__()
+99738
+
+# If you want to cross check that the event you got indeed has actor 
+# as you specified, you can try to fetch the whole event
+>>> ev=zg.GetEvents([int(ids[0])]
+>>> Event(ev[0]).get_actor().__str__()
+'application://gedit.desktop'
+
 
 
 \end{verbatim}

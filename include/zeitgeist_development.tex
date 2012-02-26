@@ -95,7 +95,7 @@ Zeitgeist exposes a D-Bus Session bus with the busname as \texttt{org.gnome.zeit
 Object path as \texttt{/org/gnome/zeitgeist/log/activity} and interface 
 \texttt{org.gnome.zeitgeist.Log}
 
-\linebreak
+
 The following operations are possible over the interface
 
 \begin{itemize}
@@ -111,3 +111,111 @@ libraries for most of the famous languages which abstract the complexity of D-Bu
 have language bindings for C, Vala, Python, C++/Qt and C\#. Each binding abstracts the 
 complexity and presents a developer friendly frontend and the programming patterns 
 for individual languages.
+
+\section{Communicating over D-Bus}
+
+Even though you would not need to communicate directly over D-Bus, it would be a good 
+way to learn by communicating directly. We would be using python as the language, since 
+you don't need to write Makefiles and compile it before running.
+
+Please make sure you have Python and zeitgeist installed. You can install it from your 
+distribution's package management tool. You would need to access the python shell for 
+which you can use the built-in shell but you can use bpython, ipython or any other 
+of your choice.
+
+Open, terminal and type \texttt{python} which will lead you to a prompt looking like 
+\texttt{>>>}
+
+Now you need to import the relevant packages and types. We would first try to get an 
+instance of the D-Bus interface, then we would invoke the methods.
+
+\begin{center}
+\begin{verbatim}
+>>> import dbus
+
+# Create an instance of the SessionBus
+>>> bus = dbus.SessionBus()
+
+# Fetch the Object Path of Zeitgeist
+>>> z = bus.get_object("org.gnome.zeitgeist.Engine", \
+          "/org/gnome/zeitgeist/log/activity")
+
+# Get the interface containing all the methods and signals
+>>> zg = dbus.Interface(z, "org.gnome.zeitgeist.Log")
+\end{verbatim}
+\end{center}
+
+You can now consider \texttt{zg} as an object over which you can invoke various 
+methods. You can either search for events which acts like a filter based on certain 
+criteria or you can fetch events based on event ids. We will try the latter first 
+using arbiturary event ids to get a grasp of the methods. then we will learn how to 
+fetch the events or event ids
+
+\begin{center}
+\begin{verbatim}
+# Fetch event with id 1,2 by calling method GetEvents
+# ev12 is an arry which contains event instances
+>>> ev12 = zg.getEvents([1,2])
+
+# Check if such an event is available
+>>> ev12[0] is not None
+True
+
+# We now try to create Event objects
+>>> from zeitgeist.datamodel import Event
+>>> e1 = Event(ev12[0])
+
+# You might get different values
+>>> e1.get_actor().__str__()
+'application://compiz.desktop'
+
+>>> e1.get_interpretation().__str__()
+'http://www.zeitgeist-project.com/ontologies/2010/01/27/zg#AccessEvent'
+
+>>> e1.get_manifestation().__str__()
+'http://www.zeitgeist-project.com/ontologies/2010/01/27/zg#UserActivity'
+
+# you get the milliseconds since EPOCH
+>>> e1.get_timestamp().__str__()
+'1316814635513'
+
+>>> secs = int(e1.get_timestamp().__str__())/1000
+
+>> import datetime
+>>> datetime.datetime.fromtimestamp(float(secs))
+datetime.datetime(2011, 9, 24, 3, 20, 35)
+
+# Now we want to fetch subjects
+>>> subs=e1.get_subjects()
+>> len(subs)
+1
+
+>>> sub = subs[0]
+
+>>> sub.get_current_uri().__str__()
+'application://gnome-activity-journal.desktop'
+
+>>> sub.get_interpretation().__str__()
+'http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Software'
+
+>>> sub.get_manifestation().__str__()
+'http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#SoftwareItem'
+
+>>> sub.get_mimetype().__str__()
+'application/x-desktop'
+
+>>> sub.get_origin().__str__()
+''
+
+>>> sub.get_storage().__str__()
+''
+
+>>> sub.get_text().__str__()
+'Activity Journal'
+
+>>> sub.get_uri().__str__()
+'application://gnome-activity-journal.desktop'
+
+
+\end{verbatim}
+\end{center}

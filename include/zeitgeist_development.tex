@@ -88,3 +88,26 @@ of the subject is used internally in the Zeitgeist engine to keep track of subje
 availability. This way clients can request hits only on subjects that are 
 currently available.
 \end{itemize}
+
+\section{The D-Bus interface}
+
+Zeitgeist exposes a D-Bus Session bus with the busname as \texttt{org.gnome.zeitgeist.Engine}, 
+Object path as \texttt{/org/gnome/zeitgeist/log/activity} and interface 
+\texttt{org.gnome.zeitgeist.Log}
+
+\linebreak
+The following operations are possible over the interface
+
+\begin{itemize}
+\item Inserting events
+\item Deleting Events
+\item Fetching events by passing the event ids
+\item Searching events by passing the template which would be matched against events
+\item Exiting the daemon. It is equivalent of calling quit
+\end{itemize}
+
+Most of the time you would never need to deal directly with D-Bus since zeitgeist has 
+libraries for most of the famous languages which abstract the complexity of D-Bus. We 
+have language bindings for C, Vala, Python, C++/Qt and C\#. Each binding abstracts the 
+complexity and presents a developer friendly frontend and the programming patterns 
+for individual languages.

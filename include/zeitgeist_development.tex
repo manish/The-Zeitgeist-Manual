@@ -157,7 +157,7 @@ fetch the events or event ids
 \begin{verbatim}
 # Fetch event with id 1,2 by calling method GetEvents
 # ev12 is an arry which contains event instances
->>> ev12 = zg.getEvents([1,2])
+>>> ev12 = zg.GetEvents([1,2])
 
 # Check if such an event is available
 >>> ev12[0] is not None
@@ -298,3 +298,90 @@ the events. Both the methods use the same arguments.
 
 This methods can be viewed as calling \texttt{FindEventIds} and then calling 
 \texttt{GetEvents} using the returned list of event ids as it's arguments.
+
+\subsection{Inserting Events}
+
+Till now we have learnt how to fetch events from the data store by using templates 
+which acts as a filter. In this section we will learn how to insert events.
+
+\begin{center}
+\begin{verbatim}
+
+>>> from zeitgeist.datamodel import Event, Subject
+>>> ev = Event.new_for_values(actor="application://firefox.desktop")
+>>> sub = Subject.new_for_values(uri="application://firefox.desktop")
+>>> ev.subjects.append(sub)
+
+
+
+\end{verbatim}
+\end{center}
+
+\section{Using the Python API}
+
+In the previous section we learnt how to use Zeitgeist API by directly calling 
+the methods over D-Bus. The method invocation in the examples were blocking in nature 
+which is not useful in real situations. 
+
+Now we will learn how to use the official Zeitgeist Python API to use Zeitgeist 
+without having to worry about the D-Bus methods and the underlying technology. These 
+methods are asynchronous in nature. Every method call needs to provide a callback 
+method to which the control is passed after the operation completes. This is 
+especially useful in cases when the user is performing incremental search where 
+the call to zeitgeist is made after every keystroke.
+
+\subsection{Searching for events which matches the template}
+
+In the following examples we won't be importing dbus and try to get the bus instance 
+but instead use the python wrapper which does all the heavy lifting for us.
+
+You can save this in a file and run it on command line using python command passing 
+the filename as the argument
+
+\texttt{\$ python file.py}
+
+\begin{center}
+\begin{verbatim}
+
+from gi.repository import GObject
+from zeitgeist.client import ZeitgeistClient
+from zeitgeist.datamodel import Event, Subject, Interpretation, ResultType
+zg = ZeitgeistClient()
+
+event_template = Event()
+subj = Subject()
+subj.interpretation = Interpretation.VIDEO
+event_template.subjects = [subj]
+
+mainloop = GObject.MainLoop()
+
+def callback(events):
+	for ev in events:
+		print ev.subjects[0].get_uri()
+	mainloop.quit()
+
+zg.find_events_for_templates([event_template], callback, \
+    num_events=100, result_type=ResultType.MostPopularSubjects)
+mainloop.run()
+
+\end{verbatim}
+\end{center}
+
+Now let's see what we are doing
+
+\begin{enumerate}
+\item We import GObject so that we can use it as the mainloop
+\item Then we import ZeitgeistClient which is a wrapper around the D-Bus interface 
+which abstracts the implementation level detail and provides us with an asynronous 
+API for real world usage
+\item We import the data stuctures which will contain the information we would 
+send to the zeitgeist engine
+\item We create an instance of the Client named "zg"
+\item We create an instance of Event and Subject. We set the interpretation of the 
+subject to the VIDEOS and add the subject to the event subjects list
+\item We create an instance of GObject Mainloop named "mainloop"
+\item We create a callback named "callback" which accepts an argument named events 
+which is the information returned from the zeitgeist engine
+\item We invoke the method \texttt{find\_events\_for\_templates} with the event\_template, 
+callback, maximum number of events to be fetched and ResultType as arguments
+\end{enumerate}

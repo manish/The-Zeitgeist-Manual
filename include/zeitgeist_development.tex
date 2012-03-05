@@ -384,4 +384,145 @@ subject to the VIDEOS and add the subject to the event subjects list
 which is the information returned from the zeitgeist engine
 \item We invoke the method \texttt{find\_events\_for\_templates} with the event\_template, 
 callback, maximum number of events to be fetched and ResultType as arguments
+\item The value MostPopularSubjects tells the engine to return one event for each 
+subject and sort it based on popularity of the Subject.
 \end{enumerate}
+
+\subsection{Fetching events from event ids}
+
+In this example we will fetch the event instances when we already know the event ids
+
+\begin{center}
+\begin{verbatim}
+
+from gi.repository import GObject
+from zeitgeist.client import ZeitgeistClient
+from zeitgeist.datamodel import Event, Subject, Interpretation
+zg = ZeitgeistClient()
+
+mainloop = GObject.MainLoop()
+
+def callback(events):
+	for ev in events:
+		print ev
+	mainloop.quit()
+
+zg.get_events([1,2], callback)
+mainloop.run()
+
+\end{verbatim}
+\end{center}
+
+In this case we don't need to create Event templates as we already know the event ids 
+which are 1 and 2. We have a callback method which takes a single argument which is 
+an array of events returned for the event ids provided.
+
+\subsection{Searching for event ids which matches the template}
+
+There are cases when you want to know the events which match a specific template, 
+but don't want to fetch all such events because you would use lazy loading for showing 
+the event details or it does not make sense to show everything since not everything 
+can show at once on the screen.
+
+For such situations, it is best to get all the event ids for events which match 
+the template and call \texttt{get\_events} only when such event details needs to be shown.
+
+\begin{center}
+\begin{verbatim}
+
+from gi.repository import GObject
+from zeitgeist.client import ZeitgeistClient
+from zeitgeist.datamodel import Event, Subject, Interpretation
+zg = ZeitgeistClient()
+
+event_template = Event()
+subj = Subject()
+subj.interpretation = Interpretation.VIDEO
+event_template.subjects = [subj]
+
+mainloop = GObject.MainLoop()
+
+def callback(ids):
+	for id in ids:
+		print id
+	mainloop.quit()
+
+zg.find_event_ids_for_templates([event_template], callback, num_events=100, result_type=0)
+mainloop.run()
+
+\end{verbatim}
+\end{center}
+
+\subsection{Inserting Events}
+
+In this section we will learn how to insert events in the zeitgeist log. We would need 
+to create the Event instance and fill it up with necessary information and then send it 
+asynchronously over d-bus.
+
+\begin{center}
+\begin{verbatim}
+
+from gi.repository import GObject
+from zeitgeist.client import ZeitgeistClient
+from zeitgeist.datamodel import Event, Subject, Interpretation, Manifestation
+zg = ZeitgeistClient()
+
+event = Event()
+event.interpretation = Interpretation.ACCESS_EVENT
+event.manifestation = Manifestation.USER_ACTIVITY
+event.actor = "application://vlc.desktop"
+
+subj = Subject()
+subj.interpretation = Interpretation.VIDEO
+subj.manifestation = Manifestation.FILE_DATA_OBJECT
+subj.uri = "/home/manish/Videos/Darkness.ogg"
+subj.mimetype = "video/ogg"
+subj.text = "Darkness exposed"
+event.subjects = [subj]
+
+mainloop = GObject.MainLoop()
+
+def callback(ids):
+	for id in ids:
+		print id
+	mainloop.quit()
+
+zg.insert_event(event, callback)
+mainloop.run()
+
+\end{verbatim}
+\end{center}
+
+\noindent
+In the above example we are inserting a specific event. Let's discuss
+
+\begin{enumerate}
+\item We import the necessary modules like ZeitgeistClient etc.
+\item We create an instance of Event with Interpretation as ACCESS\_EVENT which 
+means that the file was being accessed(read)
+\item The Manifestation of the event was USER\_ACTIVITY as the event was caused due 
+to user's activity. Other kind of manifestation can be SCHEDULED\_ACTIVITY in case 
+when a new track starts playing because it was present in the playlist. There is 
+also WORLD\_ACTIVITY which is used to represent activities which happen around the 
+user which has not been created by the user like network disconnections which 
+occour due to reasons out of control of the user
+\item The actor is set to VLC as this application was used to open the file
+\item Then we create a Subject which deals with the resource used in the event.
+\item We set the subject interpretation to VIDEO as the file is of the type VIDEO
+\item We set the subject manifestation as FILE\_DATA\_OBJECT as the subject is 
+actually a file on the disk
+\item Then we set the uri of the subject which is actually a file
+\item We set the subject mimetype. In this case the video is of type video/ogg
+\item We set the subject text which is a free form string describing the subject
+\item We create the necessary mainlopp, callback and then call the event insert\_event 
+with the event  we created and the callback.
+\item Whent he mainloop is run, the event is inserted and the callback is invoked 
+which in turn prints the event id of the inserted event
+\end{enumerate}
+
+The callback argument is list containing the event id of the 
+inserted event. You can also insert multiple events at once using 
+\texttt{insert\_events} which would accept the same callback 
+but the callback argument which is a list would contain more than 
+one item. The first argument of \texttt{insert\_events} is a list 
+of events instead of a single event.
